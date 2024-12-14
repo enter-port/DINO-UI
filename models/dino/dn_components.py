@@ -58,12 +58,12 @@ def prepare_for_cdn(dn_args, training, num_queries, num_classes, hidden_dim, lab
         known_bid = batch_idx.repeat(2 * dn_number, 1).view(-1)
         known_bboxs = boxes.repeat(2 * dn_number, 1)
         known_labels_expaned = known_labels.clone()
-        known_bbox_expand = known_bboxs.clone()
+        known_bbox_expand = known_bboxs.clone().float()
 
         if label_noise_ratio > 0:
             p = torch.rand_like(known_labels_expaned.float())
             chosen_indice = torch.nonzero(p < (label_noise_ratio * 0.5)).view(-1)  # half of bbox prob
-            new_label = torch.randint_like(chosen_indice, 0, num_classes)  # randomly put a new one here
+            new_label = torch.randint_like(chosen_indice, 0, num_classes).float()  # randomly put a new one here # randomly put a new one here
             known_labels_expaned.scatter_(0, chosen_indice, new_label)
         single_pad = int(max(known_num))
 
@@ -103,7 +103,7 @@ def prepare_for_cdn(dn_args, training, num_queries, num_classes, hidden_dim, lab
 
         map_known_indice = torch.tensor([]).to('cuda')
         if len(known_num):
-            map_known_indice = torch.cat([torch.tensor(range(num)) for num in known_num])  # [1,2, 1,2,3]
+            map_known_indice = torch.cat([torch.tensor(range(num.long())) for num in known_num])  # [1,2, 1,2,3]
             map_known_indice = torch.cat([map_known_indice + single_pad * i for i in range(2 * dn_number)]).long()
         if len(known_bid):
             input_query_label[(known_bid.long(), map_known_indice)] = input_label_embed
