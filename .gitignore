@@ -24,3 +24,13 @@ vis/
 model_zoo/
 model_zoo_old/
 scripts/
+.venv/
+data/coredraw/
+data/extern/
+data/jiguang/
+data/onedrive/
+data/skype/
+data/winmediaplayer/
+data/train_test_split.json
+logs/
+

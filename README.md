@@ -7,6 +7,46 @@ This is the official implementation of the paper "[DINO: DETR with Improved DeNo
 
 Authors: [Hao Zhang](https://haozhang534.github.io/)\*, [Feng Li](https://fengli-ust.github.io/)\*, [Shilong Liu](https://www.lsl.zone/)\*, [Lei Zhang](https://www.leizhang.org/), [Hang Su](https://www.suhangss.me/), [Jun Zhu](https://ml.cs.tsinghua.edu.cn/~jun/index.shtml), [Lionel M. Ni](https://www.cse.ust.hk/~ni/), [Heung-Yeung Shum](https://scholar.google.com.hk/citations?user=9akH-n8AAAAJ&hl=en)
 
+# UI-DINO
+
+## Introduction
+
+DINO for running on our new UI dataset
+
+## Installation
+
+1. Install pytorch and torchvision based on your own cudatoolkit version
+2. install requirements.txt
+  ```
+   pip install -r requirements.txt
+   ```
+3. Compiling CUDA operators
+  ```
+   cd models/dino/ops
+   python setup.py build install 
+  ```
+
+## data:
+
+put every folder of the new dataset under ./data
+
+In our task, we have 8 categories: 4 icons and 4 levels
+
+## running:
+
+When you first run the script, it will automatically generate train_test_split.json
+
+Some super params may need to be asjusted, in arg_utils.py: 
+
+  ```
+  args.lr_warmup_target = 0.01
+  args.lr = 0.0002
+  ```
+
+  ``` 
+  python3 train_dino.py
+  ```
+
 # News
 [2023/7/10] We release [Semantic-SAM](https://github.com/UX-Decoder/Semantic-SAM), a universal image segmentation model to enable segment and recognize anything at any desired granularity. **Code** and **checkpoint** are available!
 </br>
